@@ -18,7 +18,10 @@ export class BidComponent implements OnInit {
     this.ticketService.getOne(id).subscribe(
       ticket => this.ticket = ticket
     );
+  }
 
+  onBidWithBidStep() {
+    alert('gombnyomas');
   }
 
 }
