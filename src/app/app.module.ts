@@ -21,6 +21,7 @@ import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.compone
 
 
 import { MomentModule } from 'angular2-moment';
+import 'moment/locale/hu';
 
 @NgModule({
   declarations: [
