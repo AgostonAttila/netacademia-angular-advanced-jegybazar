@@ -5,6 +5,8 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/mergeMap';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { EventModel } from './event-model';
@@ -86,4 +88,24 @@ export class TicketService {
     )
       .map(x => x.id);
   }
+
+
+
+  getOne(id: string): Observable<TicketModel> {
+        return this._http.get<TicketModel>(`${environment.firebase.baseUrl}/tickets/${id}.json`)
+          .flatMap(
+            ticket => Observable.combineLatest(
+              Observable.of(new TicketModel(ticket)),
+              this._eventService.getEventById(ticket.eventId),
+              this._userService.getUserById(ticket.sellerUserId),
+              (t: TicketModel, e: EventModel, u: UserModel) => {
+                return {
+                  ...t,
+                  event: e,
+                  seller: u
+                };
+              })
+          );
+      }
+
 }
