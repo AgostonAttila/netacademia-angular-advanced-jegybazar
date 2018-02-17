@@ -1,6 +1,5 @@
 ﻿
-# 
-Netacademia - Angular Advanced tanfolyam (csak a jegybazar app)
+# Netacademia - Angular Advanced tanfolyam (csak a jegybazar app)
 
 
 https://netacademia.hu/Tanfolyam/2017ngadvanced-ng-advanced
