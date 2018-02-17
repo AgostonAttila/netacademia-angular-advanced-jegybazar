@@ -11,18 +11,21 @@ import { JumbotronComponent } from './core/jumbotron/jumbotron.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { EventcardComponent } from './event/eventcard/eventcard.component';
 import { TicketDetailsCardComponent } from './ticket/ticket-details-card/ticket-details-card.component';
+import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.component';
+import { BidFormComponent } from './ticket/bid-form/bid-form.component';
+import { LoadingSpinnerComponent } from './core/loading-spinner/loading-spinner.component';
 
 import { AuthInterceptor } from './shared/auth-interceptor';
 import { EventService } from './shared/event.service';
 import { LoggedInGuardGuard } from './shared/logged-in-guard.guard';
 import { TicketService } from './shared/ticket.service';
 import { UserService } from './shared/user.service';
-import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.component';
+
 
 
 import { MomentModule } from 'angular2-moment';
 import 'moment/locale/hu';
-import { BidFormComponent } from './ticket/bid-form/bid-form.component';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { BidFormComponent } from './ticket/bid-form/bid-form.component';
     ...AppRoutingModule.routableComponents,
     TicketDetailsCardComponent,
     BiddingCardComponent,
-    BidFormComponent
+    BidFormComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
