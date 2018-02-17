@@ -19,8 +19,8 @@ import { UserService } from './user.service';
 export class TicketService {
 
   constructor(private _eventService: EventService,
-              private _userService: UserService,
-              private _http: HttpClient) {
+    private _userService: UserService,
+    private _http: HttpClient) {
   }
 
   // Mi is tortenik itt, mert izi :) - logikai lepesekkel, hogy hogyan epulunk fel
@@ -84,7 +84,7 @@ export class TicketService {
   private _saveGeneratedId(ticketId: string): Observable<string> {
     return this._http.patch<{ id: string }>(
       `${environment.firebase.baseUrl}/tickets/${ticketId}.json`,
-      {id: ticketId}
+      { id: ticketId }
     )
       .map(x => x.id);
   }
@@ -92,20 +92,25 @@ export class TicketService {
 
 
   getOne(id: string): Observable<TicketModel> {
-        return this._http.get<TicketModel>(`${environment.firebase.baseUrl}/tickets/${id}.json`)
-          .flatMap(
-            ticket => Observable.combineLatest(
-              Observable.of(new TicketModel(ticket)),
-              this._eventService.getEventById(ticket.eventId),
-              this._userService.getUserById(ticket.sellerUserId),
-              (t: TicketModel, e: EventModel, u: UserModel) => {
-                return {
-                  ...t,
-                  event: e,
-                  seller: u
-                };
-              })
-          );
-      }
+    return this._http.get<TicketModel>(`${environment.firebase.baseUrl}/tickets/${id}.json`)
+      .flatMap(
+        ticket => Observable.combineLatest(
+          Observable.of(new TicketModel(ticket)),
+          this._eventService.getEventById(ticket.eventId),
+          this._userService.getUserById(ticket.sellerUserId),
+          (t: TicketModel, e: EventModel, u: UserModel) => {
+            return {
+              ...t,
+              event: e,
+              seller: u
+            };
+          })
+      );
+  }
+
+  modify(ticket: TicketModel) {
+    return this._http
+    .put(`${environment.firebase.baseUrl}/tickets/${ticket.id}.json`,ticket);
+  }
 
 }

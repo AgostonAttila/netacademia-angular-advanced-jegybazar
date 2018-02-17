@@ -1,7 +1,8 @@
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { TicketModel } from '../../shared/ticket-model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { bidMinimumValidator } from './bid.validators';
+import { BidService } from '../../shared/bid.service';
 
 @Component({
   selector: 'app-bid-form',
@@ -9,24 +10,30 @@ import { bidMinimumValidator } from './bid.validators';
   styleUrls: ['./bid-form.component.css']
 })
 export class BidFormComponent implements OnInit {
-  ngOnInit() {
-    this.form = this.fb.group(
-      {
-       // bid: [null,Validators.required]
-       bid: [null,Validators.compose([Validators.required,bidMinimumValidator(this.ticket.currentBid+ this.ticket.bidStep)])]
-      }
-    );
-  }
-
   @Input() ticket: TicketModel;
   @Output() bidWithBidStep = new EventEmitter<void>();
   displayBidStep = true;
   form: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private bidService: BidService) { }
 
+  ngOnInit() {
+    this.form = this.fb.group(
+      {
+        // bid: [null,Validators.required]
+        bid: [null, Validators.compose([Validators.required, bidMinimumValidator(this.ticket.currentBid + this.ticket.bidStep)])]
+      }
+    );
+
+    //this.form.get('bid').valueChanges.subscribe(val=>console.log(val)); figyelem az értéket
+    //this.form.valueChanges.subscribe(val=>console.log(val));
   }
+
+  /*
+  testMethod(){
+    this.form.addControl('bid2',new FormControl())
+  }*/
 
   onBidWithBidStep() {
     this.bidWithBidStep.emit();
@@ -40,8 +47,21 @@ export class BidFormComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log( this.form.value);
- 
+    if (this.form.valid) {
+      this.bidService.bid(this.ticket.id, this.form.value['bid'])
+        .subscribe(
+          () => {
+            this.submitted = false;
+            this.form.reset({ bid: null });
+            //TODO notification user
+            //TODO emit output bid
+          },
+          err => {
+            console.log("error");
+          }
+        );
+    }
+    console.log(this.form.value);
   }
 
 

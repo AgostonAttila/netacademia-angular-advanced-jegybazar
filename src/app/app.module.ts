@@ -20,8 +20,7 @@ import { EventService } from './shared/event.service';
 import { LoggedInGuardGuard } from './shared/logged-in-guard.guard';
 import { TicketService } from './shared/ticket.service';
 import { UserService } from './shared/user.service';
-
-
+import { BidService } from './shared/bid.service';
 
 import { MomentModule } from 'angular2-moment';
 import 'moment/locale/hu';
@@ -54,6 +53,7 @@ import 'moment/locale/hu';
     EventService,
     UserService,
     TicketService,
+    BidService,
     LoggedInGuardGuard,
     {
       provide: HTTP_INTERCEPTORS,
