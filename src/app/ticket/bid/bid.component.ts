@@ -20,8 +20,6 @@ export class BidComponent implements OnInit {
     );
   }
 
-  onBidWithBidStep() {
-    alert('gombnyomas');
-  }
+
 
 }

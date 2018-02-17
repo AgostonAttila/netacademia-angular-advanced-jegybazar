@@ -7,10 +7,9 @@ import { TicketModel } from '../../shared/ticket-model';
   styleUrls: ['./bidding-card.component.css']
 })
 export class BiddingCardComponent   {
-  @Input() ticket: TicketModel;
-  @Output() bidWithBidStep = new EventEmitter<void>();
+  @Input() ticket: TicketModel;  
 
-  onBidWithBidStep(){
-      this.bidWithBidStep.emit();
+  onBidWithBidStep() {
+    alert('gombnyomas');
   }
 }
