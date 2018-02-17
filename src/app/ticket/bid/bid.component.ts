@@ -19,29 +19,41 @@ export class BidComponent implements OnInit {
   }
 
   ngOnInit() {
-    const handle404 = () => {
-      this.router.navigate(['404']);
-    };
+
 
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
-        this.ticketService.getOne(params.get('id')).subscribe(
-          ticket => {
-            if (ticket === null) {
-              handle404();
-            }
-            else {
-              this.ticket = ticket
-            }
-          },
-          err => {
-            return handle404();
-          }
-        );
+        this.refreshTicket(params.get('id'));
       }
     );
 
   }
+
+  onRefreshTicket() {
+    this.refreshTicket(this.ticket.id);
+  }
+
+
+  refreshTicket(id: string) {
+    const handle404 = () => {
+      this.router.navigate(['404']);
+    };
+    this.ticketService.getOne(id).subscribe(
+      ticket => {
+        if (ticket === null) {
+          handle404();
+        }
+        else {
+          this.ticket = ticket
+        }
+      },
+      err => {
+        return handle404();
+      }
+    );
+  }
+
+
 
 
 
