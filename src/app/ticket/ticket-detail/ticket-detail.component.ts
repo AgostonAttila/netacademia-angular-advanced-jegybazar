@@ -20,9 +20,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   private _subs: Subscription;
 
   constructor(private _ticketService: TicketService,
-              private _eventService: EventService,
-              private _userService: UserService,
-              private _router: Router) {
+    private _eventService: EventService,
+    private _userService: UserService,
+    private _router: Router) {
   }
 
   ngOnInit() {
@@ -32,7 +32,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // nem igazan szep, de tobbet most nem ert nekem a kerdes
     this.ticket.eventId = '';
 
-    this.ticket.sellerUserId = this._userService.getCurrentUser().id;
+    this._userService.getCurrentUser().subscribe(
+      user => this.ticket.sellerUserId = user.id
+    );
     this.events$ = this._eventService.getAllEvents();
   }
 

@@ -29,16 +29,4 @@ export class LoggedInGuardGuard implements CanActivate {
         );
        }
      }
-
-    /*              if (this._userService.isLoggedIn$) {
-        return true;
-      } else {
-        // itt annyit csinaltunk, hogy a Location segitsegevel
-        // nem elnavigalunk valami fix helyre ha nincs jogunk
-        // hanem pusztan helyben maradunk
-        // illetve indulasnal alap routeba esunk bele
-        this._router.navigate([this._location.path()]);
-        return false;
-      }
-    }*/
   
