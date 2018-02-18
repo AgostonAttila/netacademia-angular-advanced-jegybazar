@@ -24,7 +24,8 @@ import { BidService } from './shared/bid.service';
 
 import { MomentModule } from 'angular2-moment';
 import 'moment/locale/hu';
-
+import { environment } from '../environments/environment';
+import * as firebase from 'firebase';
 
 @NgModule({
   declarations: [
@@ -64,4 +65,7 @@ import 'moment/locale/hu';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(){
+    firebase.initializeApp(environment.firebase);
+  }
 }
