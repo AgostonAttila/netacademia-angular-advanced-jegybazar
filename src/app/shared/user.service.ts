@@ -7,13 +7,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
-import { FirebaseLoginModel } from './firebase-login-model';
 import { FirebaseRegistrationModel } from './firebase-registration-model';
 import { UserModel } from './user-model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import * as firebase from 'firebase';
 import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/mergeMap'
+import 'rxjs/add/operator/mergeMap';
 
 @Injectable()
 export class UserService {
@@ -22,8 +21,10 @@ export class UserService {
   private _user = new ReplaySubject<UserModel>(1);
   private _fbAuthData: any;
 
-  constructor(private _router: Router,
-    private _http: HttpClient) {
+  constructor(
+    private _router: Router,
+    private _http: HttpClient
+  ) {
     firebase.auth().onAuthStateChanged(
       user => {
         if (user != null) {
@@ -72,7 +73,7 @@ export class UserService {
     // generaljon nekem kulcsot a firebase, hanem a registraciokor kapott id-t szeretnem
     // kulcs kent hasznalni adatmentesnel kulcskent az adatbazisban
     // illetve put-ra fb a bekuldott adatszerkezetet adja vissz igy tudom tovabb hasznalni
-    return this._http.put<UserModel>(`${environment.firebase.baseUrl}/users/${param.id}.json`, param); // return: param   
+    return this._http.put<UserModel>(`${environment.firebase.baseUrl}/users/${param.id}.json`, param);
   }
 
   // itt ezt azert tettem be igy direktbe, es nem asyncronban bekotve, mert amikor ez a valtozo valtozik
@@ -81,9 +82,9 @@ export class UserService {
   getUserById(fbid: string) {
     return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/${fbid}.json`);
   }
- 
+
   getCurrentUser() {
-    return this._user.asObservable();//nem lesz nextje
+    return this._user.asObservable();
   }
 
   logout() {
@@ -102,11 +103,11 @@ export class UserService {
       user => {
         return this._http.patch(
           `${environment.firebase.baseUrl}/users/${user.id}/tickets.json`,
-          { [ticketId]: true })        
+          { [ticketId]: true }
+        )
           .map(rel => Object.keys(rel)[0]);
       }
     );
-
   }
 
   // TODO: refreshtoken-t lekezelni

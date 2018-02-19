@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,21 +10,19 @@ import { FooterComponent } from './core/footer/footer.component';
 import { JumbotronComponent } from './core/jumbotron/jumbotron.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { EventcardComponent } from './event/eventcard/eventcard.component';
-import { TicketDetailsCardComponent } from './ticket/ticket-details-card/ticket-details-card.component';
-import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.component';
-import { BidFormComponent } from './ticket/bid-form/bid-form.component';
-import { LoadingSpinnerComponent } from './core/loading-spinner/loading-spinner.component';
-
 import { EventService } from './shared/event.service';
 import { LoggedInGuardGuard } from './shared/logged-in-guard.guard';
 import { TicketService } from './shared/ticket.service';
 import { UserService } from './shared/user.service';
-import { BidService } from './shared/bid.service';
-
+import { TicketDetailsCardComponent } from './ticket/ticket-details-card/ticket-details-card.component';
+import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.component';
 import { MomentModule } from 'angular2-moment';
 import 'moment/locale/hu';
-import { environment } from '../environments/environment';
+import { BidFormComponent } from './ticket/bid-form/bid-form.component';
+import { LoadingSpinnerComponent } from './core/loading-spinner/loading-spinner.component';
+import { BidService } from './shared/bid.service';
 import * as firebase from 'firebase';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -53,13 +51,13 @@ import * as firebase from 'firebase';
     EventService,
     UserService,
     TicketService,
-    BidService,
-    LoggedInGuardGuard    
+    LoggedInGuardGuard,
+    BidService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(){
+  constructor() {
     firebase.initializeApp(environment.firebase);
   }
 }

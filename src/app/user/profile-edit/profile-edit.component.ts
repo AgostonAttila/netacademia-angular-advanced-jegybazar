@@ -14,8 +14,10 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
 
-  constructor(private _userService: UserService,
-    private _router: Router) {
+  constructor(
+    private _userService: UserService,
+    private _router: Router
+  ) {
   }
 
   ngOnInit() {

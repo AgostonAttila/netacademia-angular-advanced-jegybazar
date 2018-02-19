@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TicketModel } from '../../shared/ticket-model';
 
 @Component({
@@ -6,14 +6,13 @@ import { TicketModel } from '../../shared/ticket-model';
   templateUrl: './bidding-card.component.html',
   styleUrls: ['./bidding-card.component.css']
 })
-export class BiddingCardComponent   {
-  @Input() ticket: TicketModel;  
-  @Input() isLoggedIn:boolean;
-  @Output() refreshTicket=new EventEmitter<void>();
-  @Input()loading = false;
+export class BiddingCardComponent {
+  @Input() ticket: TicketModel;
+  @Input() isLoggedIn: Boolean;
+  @Output() refreshTicket = new EventEmitter<void>();
+  @Input() loading = false;
 
   onBidWithBidStep() {
-   this.refreshTicket.emit();
-    
+    this.refreshTicket.emit();
   }
 }
