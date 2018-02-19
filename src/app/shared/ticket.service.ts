@@ -84,9 +84,9 @@ export class TicketService {
       ;
   }
 
-getOneOnce(id: string): Observable<TicketModel> {
-return this.getOne(id).first();
-}
+  getOneOnce(id: string): Observable<TicketModel> {
+    return this.getOne(id).first();
+  }
 
   getOne(id: string): Observable<TicketModel> {
     // observer.next();
