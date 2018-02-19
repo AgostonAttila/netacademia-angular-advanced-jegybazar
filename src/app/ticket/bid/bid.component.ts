@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TicketService } from '../../shared/ticket.service';
 import { TicketModel } from '../../shared/ticket-model';
 import { UserService } from '../../shared/user.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-bid',
   templateUrl: './bid.component.html',
   styleUrls: ['./bid.component.css']
 })
-export class BidComponent implements OnInit {
+export class BidComponent implements OnInit, OnDestroy {
+  ticketWatcherSubscription: Subscription;
   ticket$: Observable<TicketModel>;
   isLoggedIn$: Observable<boolean>;
   progressRefreshTicket = false;
@@ -33,6 +35,9 @@ export class BidComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.ticketWatcherSubscription.unsubscribe();
+  }
 
   private refreshTicket(id: string) {
     this.progressRefreshTicket = true;
@@ -41,7 +46,7 @@ export class BidComponent implements OnInit {
     };
 
     this.ticket$ = this.ticketService.getOne(id).share();
-    this.ticket$.subscribe(
+    this.ticketWatcherSubscription = this.ticket$.subscribe(
       ticket => {
         this.progressRefreshTicket = false;
         if (ticket === null) {

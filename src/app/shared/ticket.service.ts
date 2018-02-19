@@ -14,6 +14,7 @@ import { TicketModel } from './ticket-model';
 import { UserModel } from './user-model';
 import { UserService } from './user.service';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/first';
 
 @Injectable()
 export class TicketService {
@@ -82,6 +83,10 @@ export class TicketService {
       .switchMap(ticketId => this._userService.addTicket(ticketId))
       ;
   }
+
+getOneOnce(id: string): Observable<TicketModel> {
+return this.getOne(id).first();
+}
 
   getOne(id: string): Observable<TicketModel> {
     // observer.next();
