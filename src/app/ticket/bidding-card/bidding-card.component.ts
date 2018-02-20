@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { TicketModel } from '../../shared/ticket-model';
 
 @Component({
@@ -6,13 +6,24 @@ import { TicketModel } from '../../shared/ticket-model';
   templateUrl: './bidding-card.component.html',
   styleUrls: ['./bidding-card.component.css']
 })
-export class BiddingCardComponent {
+export class BiddingCardComponent implements OnChanges {
   @Input() ticket: TicketModel;
   @Input() isLoggedIn: Boolean;
-  @Output() refreshTicket = new EventEmitter<void>();
-  @Input() loading = false;
+  @Output() bid = new EventEmitter<void>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['ticket'] != null &&
+      changes['ticket'].isFirstChange() &&
+      changes['ticket'].currentValue != null) {
+      this.loading = false;
+    }
+  }
+
+  // tslint:disable-next-line:member-ordering
+  loading = false;
 
   onBidWithBidStep() {
-    this.refreshTicket.emit();
+    this.loading = true;
+    this.bid.emit();
   }
 }

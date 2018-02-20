@@ -39,6 +39,10 @@ export class BidComponent implements OnInit, OnDestroy {
     this.ticketWatcherSubscription.unsubscribe();
   }
 
+onBid(){
+  this.progressRefreshTicket = true;
+}
+
   private refreshTicket(id: string) {
     this.progressRefreshTicket = true;
     const handle404 = () => {
@@ -59,3 +63,4 @@ export class BidComponent implements OnInit, OnDestroy {
     );
   }
 }
+
