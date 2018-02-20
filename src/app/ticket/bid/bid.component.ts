@@ -39,7 +39,7 @@ export class BidComponent implements OnInit, OnDestroy {
     this.ticketWatcherSubscription.unsubscribe();
   }
 
-onBid(){
+onBid() {
   this.progressRefreshTicket = true;
 }
 
