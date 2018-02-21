@@ -14,6 +14,7 @@ import { TicketModel } from './ticket-model';
 import { UserModel } from './user-model';
 import { UserService } from './user.service';
 import 'rxjs/add/operator/mergeMap';
+import * as firebase from 'firebase';
 import 'rxjs/add/operator/first';
 
 @Injectable()
@@ -89,12 +90,9 @@ export class TicketService {
   }
 
   getOne(id: string): Observable<TicketModel> {
-    // observer.next();
-    // observer.complete(); lezárja
-    // observer.error(); hiba
     return new Observable(
       observer => {
-        const dbTicket = firebase.database().ref(`ticket/${id}`);
+        const dbTicket = firebase.database().ref(`tickets/${id}`);
         dbTicket.on('value',
           snapshot => {
             const ticket = snapshot.val();
@@ -106,13 +104,14 @@ export class TicketService {
               (t: TicketModel, e: EventModel, u: UserModel) => {
                 return t.setEvent(e).setSeller(u);
               }).subscribe(
-                ticketModel => {
-                  observer.next(ticketModel);
-                  subscription.unsubscribe();
-                }
-              );
+              ticketModel => {
+                observer.next(ticketModel);
+                subscription.unsubscribe();
+              }
+            );
           });
-      });
+      }
+    );
   }
 
   modify(ticket: TicketModel) {

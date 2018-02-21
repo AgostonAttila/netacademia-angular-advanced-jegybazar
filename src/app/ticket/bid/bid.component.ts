@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { TicketService } from '../../shared/ticket.service';
 import { TicketModel } from '../../shared/ticket-model';
 import { UserService } from '../../shared/user.service';
@@ -10,13 +10,14 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-bid',
   templateUrl: './bid.component.html',
-  styleUrls: ['./bid.component.css']
+  styleUrls: ['./bid.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BidComponent implements OnInit, OnDestroy {
-  ticketWatcherSubscription: Subscription;
   ticket$: Observable<TicketModel>;
   isLoggedIn$: Observable<boolean>;
   progressRefreshTicket = false;
+  private ticketWatcherSubscription: Subscription;
 
   constructor(
     private ticketService: TicketService,
@@ -27,6 +28,10 @@ export class BidComponent implements OnInit, OnDestroy {
     this.isLoggedIn$ = userService.isLoggedIn$;
   }
 
+  ngOnDestroy(): void {
+    this.ticketWatcherSubscription.unsubscribe();
+  }
+
   ngOnInit() {
     this.route.paramMap.subscribe(
       (params: ParamMap) => {
@@ -35,13 +40,9 @@ export class BidComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.ticketWatcherSubscription.unsubscribe();
+  onBid() {
+    this.progressRefreshTicket = true;
   }
-
-onBid() {
-  this.progressRefreshTicket = true;
-}
 
   private refreshTicket(id: string) {
     this.progressRefreshTicket = true;
@@ -63,4 +64,3 @@ onBid() {
     );
   }
 }
-
